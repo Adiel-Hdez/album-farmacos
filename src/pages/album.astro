@@ -1,0 +1,75 @@
+---
+import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+
+// Aquí están tus 10 categorías oficiales con sus colores e iconos
+const categorias = [
+  { id: 'analgesicos', titulo: 'Analgésicos y Antiinflamatorios', num: 'Familia 1', color: 'bg-red-500', icon: '💊' },
+  { id: 'antibioticos', titulo: 'Antibióticos', num: 'Familia 2', color: 'bg-blue-600', icon: '🦠' },
+  { id: 'antiemeticos', titulo: 'Antieméticos', num: 'Familia 3', color: 'bg-emerald-500', icon: '🤢' },
+  { id: 'antiespasmodicos', titulo: 'Antiespasmódicos', num: 'Familia 4', color: 'bg-teal-500', icon: '🎗️' },
+  { id: 'tocoliticos', titulo: 'Tocolíticos', num: 'Familia 5', color: 'bg-rose-400', icon: '🛑' },
+  { id: 'uterotonicos', titulo: 'Uterotónicos', num: 'Familia 6', color: 'bg-pink-600', icon: '🤰' },
+  { id: 'anticonvulsivante', titulo: 'Anticonvulsivante', num: 'Familia 7', color: 'bg-purple-600', icon: '⚡' },
+  { id: 'corticoesteroides', titulo: 'Corticoesteroides', num: 'Familia 8', color: 'bg-orange-500', icon: '🧬' },
+  { id: 'antirretroviral', titulo: 'Antirretroviral', num: 'Familia 9', color: 'bg-indigo-600', icon: '🛡️' },
+  { id: 'antifungico', titulo: 'Antifúngico', num: 'Familia 10', color: 'bg-amber-600', icon: '🍄' },
+  { id: 'soluciones', titulo: 'Soluciones y Electrolitos', num: 'Familia 11', color: 'bg-cyan-500', icon: '💧' },
+  { id: 'vitaminas', titulo: 'Vitaminas y Profilaxis', num: 'Familia 12', color: 'bg-yellow-500', icon: '☀️' },
+  { id: 'vacunas', titulo: 'Vacunas', num: 'Familia 13', color: 'bg-sky-500', icon: '💉' },
+  { id: 'oftalmico', titulo: 'Antibiótico Oftálmico', num: 'Familia 14', color: 'bg-lime-500', icon: '👁️' },
+  { id: 'gastrointestinales', titulo: 'Gastrointestinales', num: 'Familia 15', color: 'bg-emerald-600', icon: '🩺' }
+];
+---
+
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Familias Farmacológicas</title>
+    <ViewTransitions />
+</head>
+<body class="bg-[#F2F2F7] min-h-screen">
+    
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 px-6 py-4">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-black uppercase tracking-tighter">Álbum Digital</h1>
+            <a href="/informacion" class="text-xs font-bold text-slate-400 uppercase hover:text-emerald-500 transition-colors">Ver Info</a>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-6 py-10">
+        
+        <div class="mb-8 text-center md:text-left">
+            <h2 class="text-3xl font-black text-slate-800 tracking-tight">Categorías Médicas</h2>
+            <p class="text-slate-500 mt-2 font-medium">Selecciona una familia farmacológica para explorar sus medicamentos.</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {categorias.map(cat => (
+                <a href={`/categoria/${cat.id}`} class="group">
+                    <div class="bg-white p-3 rounded-3xl shadow-sm hover:shadow-xl transition-all hover:-translate-y-2 border border-slate-100">
+                        
+                        <div class={`aspect-square rounded-2xl ${cat.color} flex items-center justify-center p-6 mb-4 relative overflow-hidden`}>
+                            <div class="absolute inset-0 bg-white/10 group-hover:scale-150 transition-transform duration-700"></div>
+                            <span class="text-6xl drop-shadow-lg relative z-10 group-hover:rotate-12 group-hover:scale-110 transition-transform duration-300">
+                                {cat.icon}
+                            </span>
+                        </div>
+
+                        <div class="text-center pb-3 px-2">
+                            <p class="text-[9px] font-black uppercase text-slate-400 tracking-[0.2em]">{cat.num}</p>
+                            <h3 class="text-sm md:text-base font-bold text-slate-800 leading-tight mt-1">{cat.titulo}</h3>
+                        </div>
+                        
+                    </div>
+                </a>
+            ))}
+        </div>
+    </main>
+
+    <footer class="py-12 text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest">
+        Eva Susana Hernández Rivera · 2026
+    </footer>
+</body>
+</html>

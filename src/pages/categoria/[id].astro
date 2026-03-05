@@ -1,0 +1,122 @@
+---
+import '../../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+
+export function getStaticPaths() {
+  const baseDeDatos = {
+    'analgesicos': [
+      { id: 'acetaminofen', nombre: 'Acetaminofén' }, { id: 'diclofenaco', nombre: 'Diclofenaco' },
+      { id: 'ketorolaco', nombre: 'Ketorolaco' }, { id: 'indometacina', nombre: 'Indometacina' },
+      { id: 'tramadol', nombre: 'Tramadol' }, { id: 'morfina', nombre: 'Morfina' }, { id: 'petidina', nombre: 'Petidina' }
+    ],
+    'antibioticos': [
+      { id: 'ceftriaxona', nombre: 'Ceftriaxona' }, { id: 'cefazolina', nombre: 'Cefazolina' },
+      { id: 'ampicilina', nombre: 'Ampicilina' }, { id: 'penicilina-sodica', nombre: 'Penicilina Sódica' },
+      { id: 'penicilina-benzatinica', nombre: 'Penicilina Benzatínica' }, { id: 'oxitetraciclina', nombre: 'Oxitetraciclina' },
+      { id: 'gentamicina', nombre: 'Gentamicina' }, { id: 'amikacina', nombre: 'Amikacina' },
+      { id: 'clindamicina', nombre: 'Clindamicina' }, { id: 'metronidazol', nombre: 'Metronidazol' }
+    ],
+    'gastrointestinales': [
+      { id: 'ranitidina', nombre: 'Ranitidina' }
+    ],
+    'antiemeticos': [
+      { id: 'metoclopramida', nombre: 'Metoclopramida' }, { id: 'dimenhidrinato', nombre: 'Dimenhidrinato' }
+    ],
+    'antiespasmodicos': [
+      { id: 'bromuro-hioscina', nombre: 'Bromuro de N-butilhioscina' }
+    ],
+    'tocoliticos': [
+      { id: 'fenoterol', nombre: 'Fenoterol' }
+    ],
+    'uterotonicos': [
+      { id: 'oxitocina', nombre: 'Oxitocina' }, { id: 'ergonovina', nombre: 'Ergonovina' }, { id: 'misoprostol', nombre: 'Misoprostol' }
+    ],
+    'anticonvulsivante': [
+      { id: 'sulfato-magnesio', nombre: 'Sulfato de Magnesio' }
+    ],
+    'corticoesteroides': [
+      { id: 'dexametasona', nombre: 'Dexametasona' }
+    ],
+    'antirretroviral': [
+      { id: 'zidovudina', nombre: 'Zidovudina' }
+    ],
+    'antifungico': [
+      { id: 'clotrimazol', nombre: 'Clotrimazol' }
+    ],
+    'soluciones': [
+      { id: 'dextrosa-10', nombre: 'Dextrosa al 10%' }
+    ],
+    'vitaminas': [
+      { id: 'vitamina-k', nombre: 'Vitamina K' }
+    ],
+    'vacunas': [
+      { id: 'vacuna-hepatitis-b', nombre: 'Vacuna Hepatitis B' }, { id: 'vacuna-bcg', nombre: 'Vacuna BCG' }
+    ],
+    'oftalmico': [
+      { id: 'oxitetraciclina', nombre: 'Oxitetraciclina Oftálmica' }
+    ]
+  };
+
+  return Object.keys(baseDeDatos).map((categoriaId) => {
+    return {
+      params: { id: categoriaId },
+      props: { farmacos: baseDeDatos[categoriaId as keyof typeof baseDeDatos], categoriaId }
+    };
+  });
+}
+
+const { farmacos, categoriaId } = Astro.props;
+---
+
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fármacos</title>
+    <ViewTransitions />
+</head>
+<body class="bg-[#F2F2F7] min-h-screen">
+    
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 px-6 py-4">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-black uppercase tracking-tighter">Listado</h1>
+            <a href="/album" class="text-xs font-bold text-emerald-600 uppercase hover:text-emerald-800 transition-colors flex items-center">
+                <span class="mr-1">←</span> Volver a Categorías
+            </a>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-6 py-10">
+        <h2 class="text-3xl font-black text-slate-800 tracking-tight mb-8 capitalize">{categoriaId.replace('-', ' ')}</h2>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {farmacos.map(farmaco => (
+                <a href={`/farmaco/${farmaco.id}`} class="group">
+                    <div class="bg-white p-3 rounded-3xl shadow-sm hover:shadow-xl transition-all hover:-translate-y-2 border border-slate-100 flex flex-col h-full">
+                        
+                        <div class="aspect-square rounded-2xl bg-slate-100 flex items-center justify-center p-2 mb-4 overflow-hidden relative">
+                            <img 
+                                src={`/${farmaco.id}.jpeg`} 
+                                alt={farmaco.nombre} 
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                onerror="this.src='https://cdn-icons-png.flaticon.com/512/822/822143.png'"
+                            />
+                        </div>
+
+                        <div class="text-center pb-3 px-2 grow flex flex-col justify-end">
+                            <h3 class="text-sm md:text-base font-bold text-slate-800 leading-tight">{farmaco.nombre}</h3>
+                            <p class="text-[9px] font-black uppercase text-emerald-500 tracking-widest mt-2">Ver Detalle →</p>
+                        </div>
+                        
+                    </div>
+                </a>
+            ))}
+        </div>
+      <footer class="py-12 text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest">
+        Eva Susana Hernández Rivera · 2026
+      </footer>
+    </main>
+
+
+</body>
+</html>

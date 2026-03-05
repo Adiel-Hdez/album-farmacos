@@ -1,0 +1,269 @@
+---
+import '../../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+
+export function getStaticPaths() {
+  const db = {
+    'analgesicos': { 
+        titulo: 'Analgésicos y Antiinflamatorios', color: 'bg-red-500', text: 'text-red-600', badge: 'bg-red-500',
+        farmacos: [
+            { id: 'acetaminofen', nombre: 'Acetaminofén (Paracetamol)', presentacion: 'Tabletas: 325-650 mg. Jarabe: 120-160 mg/5 ml. Supositorios y Solución IV.', indicacion: 'Fiebre, dolor leve a moderado, cefalea. En obstetricia: dolor y fiebre en embarazadas.', farmacodinamia: 'Inhibe síntesis de prostaglandinas en el SNC. Antipirético y analgésico.', farmacocinetica: 'Absorción rápida GI. Metabolismo hepático. Eliminación renal.', via: 'Oral (VO), Intravenosa (IV), Rectal', dosis: 'Adultos: Máx. 4 g/día. Niños: 10–15 mg/kg/dosis.', contraindicaciones: 'Enfermedad hepática grave, alcoholismo crónico.', adversos: ['Náuseas', 'Vómitos', 'Hepatotoxicidad'], cuidados: ['Verificar dosis.', 'Evaluar función hepática.', 'Vigilar toxicidad.'] },
+            { id: 'diclofenaco', nombre: 'Diclofenaco', presentacion: 'Tabletas: 25-100 mg. Ampollas: 75 mg/3 ml. Gel y Supositorios.', indicacion: 'Dolor e inflamación. En ginecología: dolor pélvico y dismenorrea.', farmacodinamia: 'AINE. Inhibe COX-1 y COX-2.', farmacocinetica: 'Absorción rápida GI. Alta unión a proteínas.', via: 'Oral (VO), IM, Tópica, Rectal', dosis: 'Según indicación médica.', contraindicaciones: 'Hipersensibilidad a AINEs, úlcera activa.', adversos: ['Irritación gástrica', 'Riesgo de sangrado'], cuidados: ['Administrar con alimentos.', 'Vigilar sangrado GI.'] },
+            { id: 'ketorolaco', nombre: 'Ketorolaco', presentacion: 'Tabletas, Inyectable, Oftálmica.', indicacion: 'Dolor agudo moderado a severo. Riesgo sangrado.', farmacodinamia: 'AINE. Inhibe COX.', farmacocinetica: 'Hígado/Riñón.', via: 'VO, IM, IV, Oftálmica', dosis: 'Indicación médica.', contraindicaciones: 'Falla renal, úlcera.', adversos: ['Sangrado', 'Náuseas'], cuidados: ['Vigilar sangrado.'] },
+            { id: 'indometacina', nombre: 'Indometacina', presentacion: 'Cápsulas, Rectal, IV.', indicacion: 'Dolor reumático. Cierre de conducto arterioso.', farmacodinamia: 'AINE potente.', farmacocinetica: 'GI, Hígado, Riñón.', via: 'Oral (VO), Rectal, IV', dosis: 'Indicación médica.', contraindicaciones: 'Úlcera activa, embarazo 3er T.', adversos: ['Sangrado GI', 'Cefalea'], cuidados: ['Vigilar sangrado.'] },
+            { id: 'tramadol', nombre: 'Tramadol', presentacion: 'Cápsulas, Gotas, IV/IM.', indicacion: 'Dolor moderado a severo.', farmacodinamia: 'Opioide central.', farmacocinetica: 'Hígado, Riñón.', via: 'VO, IV, IM, SC', dosis: 'Indicación médica.', contraindicaciones: 'Depresión respiratoria.', adversos: ['Náuseas', 'Somnolencia'], cuidados: ['Vigilar FR.'] },
+            { id: 'morfina', nombre: 'Morfina', presentacion: 'Ampollas, Tabletas.', indicacion: 'Dolor severo agudo, oncológico.', farmacodinamia: 'Opioide potente.', farmacocinetica: 'Hígado, Riñón.', via: 'IV, IM, SC, VO', dosis: 'Estricta prescripción.', contraindicaciones: 'Depresión respiratoria.', adversos: ['Sedación', 'Miosis'], cuidados: ['Vigilar FR.'] },
+            { id: 'petidina', nombre: 'Petidina', presentacion: 'Ampollas, Tabletas.', indicacion: 'Dolor moderado a severo.', farmacodinamia: 'Opioide. Metabolito tóxico.', farmacocinetica: 'Hígado, Riñón.', via: 'IV, IM, SC, VO', dosis: 'Indicación médica.', contraindicaciones: 'Insuficiencia renal grave.', adversos: ['Convulsiones', 'Hipotensión'], cuidados: ['Vigilar toxicidad.'] }
+        ] 
+    },
+    'antibioticos': { 
+        titulo: 'Antibióticos', color: 'bg-blue-600', text: 'text-blue-600', badge: 'bg-blue-600',
+        farmacos: [
+            { id: 'ceftriaxona', nombre: 'Ceftriaxona', presentacion: 'Vial en polvo parenteral.', indicacion: 'Sepsis, meningitis. Profilaxis quirúrgica.', farmacodinamia: 'Cefalosporina 3ra Gen.', farmacocinetica: 'Riñón/Bilis.', via: 'IV, IM', dosis: 'Cada 24 hrs.', contraindicaciones: 'Hipersensibilidad.', adversos: ['Flebitis', 'Alergia'], cuidados: ['Administrar lento IV.'] },
+            { id: 'cefazolina', nombre: 'Cefazolina', presentacion: 'Vial en polvo.', indicacion: 'ITU. Profilaxis quirúrgica.', farmacodinamia: 'Cefalosporina 1ra Gen.', farmacocinetica: 'Riñón.', via: 'IV, IM', dosis: 'Indicación médica.', contraindicaciones: 'Hipersensibilidad.', adversos: ['Diarrea', 'Flebitis'], cuidados: ['Vigilar Flebitis.'] },
+            { id: 'penicilina-sodica', nombre: 'Penicilina Sódica', presentacion: 'Vial en polvo.', indicacion: 'Sífilis, meningitis.', farmacodinamia: 'Penicilina natural.', farmacocinetica: 'Riñón.', via: 'IV, IM', dosis: 'Frecuente.', contraindicaciones: 'Hipersensibilidad.', adversos: ['Anafilaxia'], cuidados: ['Equipo anafilaxia listo.'] },
+            { id: 'penicilina-benzatinica', nombre: 'Penicilina Benzatínica', presentacion: 'Vial liberación prolongada.', indicacion: 'Sífilis, faringitis.', farmacodinamia: 'Liberación lenta.', farmacocinetica: 'Absorción lenta IM.', via: 'IM Profunda ⚠️ No IV', dosis: 'Única.', contraindicaciones: 'Hipersensibilidad.', adversos: ['Dolor local'], cuidados: ['NUNCA IV.'] },
+            { id: 'ampicilina', nombre: 'Ampicilina', presentacion: 'Cápsulas, Vial.', indicacion: 'ITU, sepsis neonatal.', farmacodinamia: 'Aminopenicilina.', farmacocinetica: 'Riñón.', via: 'VO, IV, IM', dosis: 'Indicación médica.', contraindicaciones: 'Alergia betalactámicos.', adversos: ['Rash', 'Diarrea'], cuidados: ['Vigilar alergia.'] },
+            { id: 'oxacilina', nombre: 'Oxacilina', presentacion: 'Vial parenteral.', indicacion: 'Infecciones estafilocócicas.', farmacodinamia: 'Resistente a penicilinasa.', farmacocinetica: 'Hígado, Riñón.', via: 'IV, IM', dosis: 'Indicación médica.', contraindicaciones: 'Hipersensibilidad.', adversos: ['Flebitis'], cuidados: ['Vigilar sitio IV.'] },
+            { id: 'gentamicina', nombre: 'Gentamicina', presentacion: 'Inyectable.', indicacion: 'Sepsis, ITU grave.', farmacodinamia: 'Aminoglucósido.', farmacocinetica: 'Riñón.', via: 'IV, IM', dosis: '3–5 mg/kg/día.', contraindicaciones: 'Falla renal.', adversos: ['Nefrotoxicidad'], cuidados: ['Controlar creatinina.'] },
+            { id: 'amikacina', nombre: 'Amikacina', presentacion: 'Inyectable.', indicacion: 'Sepsis grave.', farmacodinamia: 'Aminoglucósido.', farmacocinetica: 'Riñón.', via: 'IV, IM', dosis: '15 mg/kg/día.', contraindicaciones: 'Hipersensibilidad.', adversos: ['Ototoxicidad'], cuidados: ['Vigilar audición.'] },
+            { id: 'clindamicina', nombre: 'Clindamicina', presentacion: 'Cápsulas, Inyectable.', indicacion: 'Vaginosis, osteomielitis.', farmacodinamia: 'Lincosamida.', farmacocinetica: 'Hígado.', via: 'VO, IV, IM', dosis: 'Indicación médica.', contraindicaciones: 'Colitis previa.', adversos: ['Diarrea intensa'], cuidados: ['Vigilar diarrea.'] },
+            { id: 'metronidazol', nombre: 'Metronidazol', presentacion: 'Tabletas, IV, Óvulos.', indicacion: 'Tricomoniasis, amebiasis.', farmacodinamia: 'Nitroimidazol.', farmacocinetica: 'Hígado, Riñón.', via: 'VO, IV, Vaginal', dosis: 'Indicación médica.', contraindicaciones: 'Alcohol.', adversos: ['Sabor metálico'], cuidados: ['No alcohol.'] }
+        ] 
+    },
+    'gastrointestinales': {
+        titulo: 'Gastrointestinales', color: 'bg-emerald-500', text: 'text-emerald-600', badge: 'bg-emerald-500',
+        farmacos: [
+            { id: 'ranitidina', nombre: 'Ranitidina', presentacion: 'Tabletas: 150 mg, 300 mg. Jarabe: 15 mg/ml. Ampolla inyectable: 50 mg/2 ml.', indicacion: 'Úlcera gástrica, úlcera duodenal, ERGE, Síndrome de Zollinger-Ellison, gastritis.', farmacodinamia: 'Bloquea receptores H2 de histamina, disminuyendo la secreción de ácido gástrico.', farmacocinetica: 'Buena absorción VO. Inicio de acción: 1 hora. Metabolismo hepático parcial.', via: 'Oral (VO), Intravenosa (IV), Intramuscular (IM)', dosis: 'VO: 150 mg c/12h. IV/IM: 50 mg c/6-8h. Máx: 300 mg/día.', contraindicaciones: 'Hipersensibilidad. Precaución en falla renal o hepática.', adversos: ['Dolor de cabeza', 'Mareos', 'Náuseas', 'Diarrea o estreñimiento', 'Confusión (en adultos mayores)'], cuidados: ['Verificar 5 correctos.', 'Administrar antes de comidas o por la noche.', 'Aplicar IV lentamente.', 'Vigilar sangrado GI.'] }
+        ]
+    },
+    'antiemeticos': {
+        titulo: 'Antieméticos', color: 'bg-teal-500', text: 'text-teal-600', badge: 'bg-teal-500',
+        farmacos: [
+            { id: 'dimenhidrinato', nombre: 'Dimenhidrinato', presentacion: 'Tabletas 50 mg. Jarabe. Solución inyectable 50 mg/mL. Supositorios.', indicacion: 'Náuseas, vómitos, vértigo, mareo por movimiento (cinetosis).', farmacodinamia: 'Bloquea receptores H1. Efecto antiemético, antivertiginoso y sedante.', farmacocinetica: 'Buena absorción VO. Atraviesa BHE. Metabolismo hepático. Vida media: 3-6 hrs.', via: 'Oral (VO), Intramuscular (IM), Intravenosa (IV), Rectal', dosis: '50-100 mg cada 4-6 horas. Máx: 400 mg/día.', contraindicaciones: 'Glaucoma de ángulo cerrado, hipertrofia prostática.', adversos: ['Somnolencia', 'Mareo', 'Sequedad de boca', 'Visión borrosa'], cuidados: ['Vigilar somnolencia.', 'Advertir evitar conducir.', 'Administrar antes de viajes.'] },
+            { id: 'metoclopramida', nombre: 'Metoclopramida', presentacion: 'Tabletas 10 mg. Jarabe. Ampollas 10 mg/2 mL.', indicacion: 'Náuseas, vómitos, gastroparesia, reflujo gastroesofágico.', farmacodinamia: 'Bloquea receptores D2. Procinético: aumenta motilidad y vaciamiento gástrico.', farmacocinetica: 'Absorción VO 80%. Atraviesa BHE y placenta. Eliminación renal.', via: 'Oral (VO), Intramuscular (IM), Intravenosa (IV)', dosis: '10 mg cada 6-8 horas. Máx: 40 mg/día.', contraindicaciones: 'Hemorragia GI, obstrucción intestinal, epilepsia, Parkinson.', adversos: ['Somnolencia', 'Fatiga', 'Reacciones extrapiramidales', 'Diarrea'], cuidados: ['Vigilar reacciones extrapiramidales.', 'Administrar IV lento (1-2 min).', 'Evaluar alivio.'] }
+        ]
+    },
+    'antiespasmodicos': {
+        titulo: 'Antiespasmódicos', color: 'bg-lime-600', text: 'text-lime-700', badge: 'bg-lime-600',
+        farmacos: [
+            { id: 'bromuro-hioscina', nombre: 'Bromuro de N-butilhioscina', presentacion: 'Tabletas 10 mg. Solución inyectable 20 mg/mL. Supositorios.', indicacion: 'Cólicos gastrointestinales, biliares, renales, espasmos urinarios y uterinos.', farmacodinamia: 'Bloquea receptores muscarínicos. Relaja músculo liso (antiespasmódico).', farmacocinetica: 'Absorción VO limitada. No atraviesa BHE fácilmente. Vida media: 5 hrs.', via: 'Oral (VO), Intramuscular (IM), Intravenosa (IV), Rectal', dosis: 'VO: 10-20 mg c/6-8h. IV/IM: 20 mg. Máx: 100 mg/día.', contraindicaciones: 'Glaucoma, miastenia gravis, megacolon, obstrucción intestinal.', adversos: ['Sequedad de boca', 'Taquicardia', 'Visión borrosa', 'Retención urinaria'], cuidados: ['Vigilar frecuencia cardíaca.', 'Observar retención urinaria.', 'Administrar IV lentamente.'] }
+        ]
+    },
+    'uterotonicos': {
+        titulo: 'Uterotónicos', color: 'bg-pink-500', text: 'text-pink-600', badge: 'bg-pink-500',
+        farmacos: [
+            { id: 'oxitocina', nombre: 'Oxitocina', presentacion: 'Ampollas 5 UI/mL y 10 UI/mL.', indicacion: 'Inducción de parto, prevención/tratamiento de hemorragia postparto, involución uterina.', farmacodinamia: 'Estimula receptores en músculo liso del útero. Contracciones rítmicas.', farmacocinetica: 'Metabolizada por oxitocinasa en hígado/riñón. Vida media: 3-5 minutos.', via: 'Intravenosa (IV), Intramuscular (IM)', dosis: 'Ajustada según protocolo (infusión o IM).', contraindicaciones: 'Sufrimiento fetal, placenta previa, riesgo de ruptura uterina.', adversos: ['Hipertonicidad uterina', 'Hipotensión', 'Asfixia fetal por contracciones excesivas'], cuidados: ['Vigilar contracciones (frecuencia, intensidad).', 'Monitorizar FCF.', 'Usar bomba de infusión.'] },
+            { id: 'ergonovina', nombre: 'Ergonovina', presentacion: 'Tabletas 0.2 mg. Ampollas 0.2 mg/mL.', indicacion: 'Prevención/tratamiento hemorragia postparto. NO se usa para inducir parto.', farmacodinamia: 'Estimula músculo liso uterino. Contracciones fuertes y sostenidas. Vasoconstrictor.', farmacocinetica: 'Buena absorción VO/IM. Metabolismo hepático. Vida media: 30m-2h.', via: 'Oral (VO), Intramuscular (IM), Intravenosa (IV)', dosis: '0.2 mg después de placenta. Máx: 1 mg/24h.', contraindicaciones: 'Hipertensión arterial, preeclampsia, embarazo (antes del parto).', adversos: ['Hipertensión arterial', 'Cefalea', 'Vasoespasmo', 'Dolor abdominal'], cuidados: ['Controlar PA antes y después.', 'No administrar antes de expulsar placenta.'] },
+            { id: 'misoprostol', nombre: 'Misoprostol', presentacion: 'Tabletas 200 mcg.', indicacion: 'Inducción de parto, hemorragia postparto, aborto incompleto, prevención úlceras por AINEs.', farmacodinamia: 'Análogo de prostaglandina E1. Contrae el útero y dilata cérvix. Protege mucosa gástrica.', farmacocinetica: 'Rápida absorción. Metabolizado a ácido misoprostólico. Vida media: 20-40 min.', via: 'VO, Sublingual, Vaginal, Rectal, Bucal', dosis: 'Inducción: 25 mcg c/4-6h. Hemorragia: 600-800 mcg.', contraindicaciones: 'Embarazo (si es para úlceras), desproporción cefalopélvica.', adversos: ['Dolor abdominal', 'Diarrea', 'Fiebre/Escalofríos', 'Contracciones excesivas'], cuidados: ['Vigilar contracciones.', 'Monitorizar FCF.', 'Vigilar sangrado.'] }
+        ]
+    },
+    'corticoesteroides': {
+        titulo: 'Corticoesteroides', color: 'bg-orange-500', text: 'text-orange-600', badge: 'bg-orange-500',
+        farmacos: [
+            { id: 'dexametasona', nombre: 'Dexametasona', presentacion: 'Tabletas, Ampollas 4mg/8mg, Gotas, Solución oral.', indicacion: 'Alergias graves, asma, edema cerebral, maduración pulmonar fetal.', farmacodinamia: 'Glucocorticoide. Inhibe mediadores inflamatorios. Inmunosupresor.', farmacocinetica: 'Amplia distribución. Atraviesa placenta. Acción prolongada (Vida media: 36-54h).', via: 'VO, IV, IM, Intraarticular, Oftálmica', dosis: 'General: 0.5-10 mg/día. Maduración: 6 mg IM c/12h x 4 dosis.', contraindicaciones: 'Infecciones sistémicas no tratadas, úlcera activa.', adversos: ['Hiperglucemia', 'Retención de líquidos', 'Insomnio', 'Aumento de peso'], cuidados: ['Controlar glucosa.', 'Vigilar signos de infección.', 'No suspender bruscamente.'] }
+        ]
+    },
+    'tocoliticos': {
+        titulo: 'Tocolíticos', color: 'bg-rose-400', text: 'text-rose-500', badge: 'bg-rose-400',
+        farmacos: [
+            { id: 'fenoterol', nombre: 'Fenoterol', presentacion: 'Aerosol, solución nebulización, inyectable.', indicacion: 'Asma, EPOC. En obstetricia: amenaza de parto prematuro (tocolítico).', farmacodinamia: 'Agonista β2 adrenérgico. Relaja músculo liso bronquial y uterino.', farmacocinetica: 'Metabolismo hepático. Eliminación renal. Vida media: 3-7 hrs.', via: 'Inhalatoria, Nebulizada, IV', dosis: 'Ajustada según protocolo (infusión IV en obstetricia).', contraindicaciones: 'Taquiarritmias, cardiopatía grave, hipertiroidismo.', adversos: ['Taquicardia', 'Temblor', 'Nerviosismo', 'Hipopotasemia'], cuidados: ['Vigilar FC materna y fetal.', 'Controlar contracciones.'] }
+        ]
+    },
+    'anticonvulsivante': {
+        titulo: 'Anticonvulsivantes', color: 'bg-purple-500', text: 'text-purple-600', badge: 'bg-purple-500',
+        farmacos: [
+            { id: 'sulfato-magnesio', nombre: 'Sulfato de Magnesio', presentacion: 'Ampollas al 20% y 50%.', indicacion: 'Prevención/tratamiento de eclampsia, neuroprotección fetal prematura, hipomagnesemia.', farmacodinamia: 'Depresor SNC. Disminuye excitabilidad neuromuscular y actividad uterina.', farmacocinetica: 'No se metaboliza. Eliminación renal. Vida media: 4 hrs.', via: 'Intravenosa (IV), Intramuscular (IM)', dosis: 'Carga: 4-6 g IV. Mantenimiento: 1-2 g/hora.', contraindicaciones: 'Insuficiencia renal grave, bloqueo cardíaco, depresión respiratoria.', adversos: ['Sensación de calor/rubor', 'Debilidad muscular', 'Depresión respiratoria', 'Hipotensión'], cuidados: ['Vigilar reflejo patelar.', 'FR > 12 rpm.', 'Tener Gluconato de Calcio (antídoto).', 'Vigilar diuresis (>30ml/h).'] }
+        ]
+    },
+    'antirretroviral': {
+        titulo: 'Antirretrovirales', color: 'bg-indigo-500', text: 'text-indigo-600', badge: 'bg-indigo-500',
+        farmacos: [
+            { id: 'zidovudina', nombre: 'Zidovudina', presentacion: 'Tabletas 300 mg, Cápsulas, Solución oral e IV.', indicacion: 'Tratamiento VIH. Prevención transmisión materno-infantil.', farmacodinamia: 'Inhibidor NRTI. Bloquea síntesis de ADN viral y reduce carga viral.', farmacocinetica: 'Atraviesa BHE y placenta. Excreción renal.', via: 'Oral (VO), Intravenosa (IV)', dosis: 'Parto (IV): 2 mg/kg inicio, luego 1 mg/kg/h infusión.', contraindicaciones: 'Anemia grave, neutropenia severa.', adversos: ['Anemia', 'Neutropenia', 'Mialgias', 'Hepatotoxicidad'], cuidados: ['Vigilar hemoglobina.', 'Bomba de infusión en parto.', 'Educar sobre transmisión.'] }
+        ]
+    },
+    'soluciones': {
+        titulo: 'Soluciones y Electrolitos', color: 'bg-cyan-500', text: 'text-cyan-600', badge: 'bg-cyan-500',
+        farmacos: [
+            { id: 'dextrosa-10', nombre: 'Dextrosa al 10%', presentacion: 'Solución IV 10% (10g de glucosa/100ml). Bolsas 250-1000ml.', indicacion: 'Hipoglucemia, aporte calórico. En parto: prevención hipoglucemia y vehículo de oxitocina.', farmacodinamia: 'Aporta energía inmediata (ATP) a células. Mantiene osmolaridad.', farmacocinetica: 'Distribución amplia. Convertida en CO2/agua o almacenada como glucógeno.', via: 'Intravenosa (IV)', dosis: 'Infusión continua según requerimientos.', contraindicaciones: 'Hiperglucemia, diabetes no controlada, edema pulmonar.', adversos: ['Hiperglucemia', 'Sobrecarga de líquidos', 'Flebitis'], cuidados: ['Controlar glucosa.', 'Vigilar velocidad de infusión.', 'Observar sitio de venoclisis.'] }
+        ]
+    },
+    'vacunas': {
+        titulo: 'Vacunas', color: 'bg-sky-500', text: 'text-sky-600', badge: 'bg-sky-500',
+        farmacos: [
+            { id: 'vacuna-bcg', nombre: 'Vacuna BCG', presentacion: 'Frasco liofilizado multidosis. Reconstituir con solvente.', indicacion: 'Prevención de tuberculosis grave (miliar, meningitis) en niños.', farmacodinamia: 'Bacteria viva atenuada (Mycobacterium bovis). Estimula inmunidad celular.', farmacocinetica: 'Absorción local lenta. Controlada por sistema inmune.', via: 'Intradérmica (ID) - Brazo derecho', dosis: 'Recién nacidos: 0.05 ml.', contraindicaciones: 'Inmunodeficiencia grave, VIH sintomático, bajo peso extremo.', adversos: ['Pápula y úlcera local', 'Cicatriz característica', 'Adenitis regional'], cuidados: ['Aplicación intradérmica correcta.', 'No cubrir el sitio.', 'Educar a la madre sobre la cicatriz.'] },
+            { id: 'vacuna-hepatitis-b', nombre: 'Vacuna Hepatitis B', presentacion: 'Suspensión inyectable. Dosis pediátrica 0.5 ml.', indicacion: 'Prevención infección virus Hepatitis B. Recién nacidos.', farmacodinamia: 'Antígeno recombinante (HBsAg). Induce anticuerpos protectores.', farmacocinetica: 'Absorción lenta IM. Procesada por sistema inmune.', via: 'Intramuscular (IM) - Muslo', dosis: '0.5 ml al nacer.', contraindicaciones: 'Alergia grave a dosis previa.', adversos: ['Dolor inyección', 'Fiebre leve', 'Irritabilidad'], cuidados: ['Mantener red de frío (2-8°C).', 'No congelar.', 'Registrar en carné.'] }
+        ]
+    },
+    'vitaminas': {
+        titulo: 'Vitaminas y Profilaxis', color: 'bg-yellow-500', text: 'text-yellow-600', badge: 'bg-yellow-500',
+        farmacos: [
+            { id: 'vitamina-k', nombre: 'Vitamina K (Fitomenadiona)', presentacion: 'Ampollas 10 mg/ml.', indicacion: 'Prevención enfermedad hemorrágica del recién nacido.', farmacodinamia: 'Cofactor para síntesis de factores de coagulación (II, VII, IX, X) en hígado.', farmacocinetica: 'Inicio acción: 6-12h. Eliminación bilis/orina.', via: 'Intramuscular (IM)', dosis: 'Recién nacidos: 0.5 - 1 mg dosis única al nacer.', contraindicaciones: 'Hipersensibilidad. Precaución en prematuros extremos.', adversos: ['Dolor sitio inyección', 'Eritema'], cuidados: ['Administrar inmediatamente después del nacimiento.', 'Aplicar en vasto lateral del muslo.'] }
+        ]
+    },
+    'antifungico': {
+        titulo: 'Antifúngicos', color: 'bg-amber-500', text: 'text-amber-600', badge: 'bg-amber-500',
+        farmacos: [
+            { id: 'clotrimazol', nombre: 'Clotrimazol', presentacion: 'Crema 1%, Óvulos vaginales (100, 200, 500 mg).', indicacion: 'Candidiasis vaginal, cutánea, dermatitis del pañal por Candida.', farmacodinamia: 'Inhibe síntesis de ergosterol en membrana celular del hongo.', farmacocinetica: 'Mínima absorción sistémica. Actúa a nivel local.', via: 'Tópica (cutánea), Vaginal', dosis: 'Óvulos: 100mg x 7 días, 200mg x 3 días o 500mg dosis única.', contraindicaciones: 'Hipersensibilidad a imidazoles.', adversos: ['Ardor local', 'Prurito', 'Eritema'], cuidados: ['Educar sobre higiene genital.', 'Completar todo el tratamiento.', 'Evitar relaciones sexuales durante tx vaginal.'] }
+        ]
+    },
+    'oftalmico': {
+        titulo: 'Antibiótico Oftálmico', color: 'bg-lime-500', text: 'text-lime-600', badge: 'bg-lime-500',
+        farmacos: [
+            { id: 'oxitetraciclina', nombre: 'Oxitetraciclina Oftálmica', presentacion: 'Ungüento oftálmico al 0.5%. Tubo 3.5g o 5g.', indicacion: 'Conjuntivitis bacteriana, blefaritis, queratitis superficial.', farmacodinamia: 'Tetraciclina. Bacteriostático (inhibe síntesis de proteínas 30S).', farmacocinetica: 'Mínima absorción sistémica. Distribución en tejidos oculares.', via: 'Tópica Oftálmica', dosis: '1 cm de ungüento en saco conjuntival 2-4 veces/día.', contraindicaciones: 'Hipersensibilidad. Infecciones virales o micóticas oculares.', adversos: ['Ardor ocular', 'Visión borrosa temporal', 'Enrojecimiento'], cuidados: ['Lavarse las manos.', 'Evitar que la punta toque el ojo.', 'Advertir sobre visión borrosa temporal.'] }
+        ]
+    }
+  };
+
+  let paths: any[] = [];
+  Object.keys(db).forEach(catId => {
+    const categoria = db[catId as keyof typeof db];
+    categoria.farmacos.forEach(farmaco => {
+      const relacionados = categoria.farmacos.filter(f => f.id !== farmaco.id);
+      paths.push({
+        params: { id: farmaco.id },
+        props: { farmaco, categoriaNombre: categoria.titulo, categoriaId: catId, colorBadge: categoria.badge, colorText: categoria.text, relacionados }
+      });
+    });
+  });
+
+  return paths;
+}
+
+const { farmaco, categoriaNombre, categoriaId, colorBadge, colorText, relacionados } = Astro.props;
+---
+
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{farmaco.nombre} - Ficha Médica</title>
+    <ViewTransitions />
+</head>
+<body class="bg-[#F8FAFC] min-h-screen text-slate-800 font-sans pb-20">
+
+    <nav class="bg-white border-b border-slate-200 px-6 py-4 shadow-sm">
+        <div class="max-w-6xl mx-auto flex justify-between items-center relative z-10">
+            <a href={`/categoria/${categoriaId}`} class="text-sm font-bold text-slate-500 hover:text-emerald-600 transition-colors inline-flex items-center group">
+                <span class="mr-2 text-lg group-hover:-translate-x-1 transition-transform">←</span> Regresar a {categoriaNombre}
+            </a>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 py-8 relative z-0">
+        
+        <div class="grid lg:grid-cols-12 gap-8 lg:gap-12">
+            
+            <div class="lg:col-span-3 space-y-6">
+                <div class="bg-white p-6 rounded-3xl shadow-lg border border-slate-100 lg:sticky lg:top-24 mx-auto lg:mx-0 text-center">
+                    
+                    <div class="w-50 h-50 mx-auto bg-slate-50 rounded-2xl flex items-center justify-center p-3 border border-slate-100 shadow-inner overflow-hidden">
+                        <img 
+                            src={`/${farmaco.id}.jpeg`} 
+                            alt={farmaco.nombre} 
+                            class="max-w-full max-h-full object-contain drop-shadow-md" 
+                            onerror="this.src='https://cdn-icons-png.flaticon.com/512/822/822143.png'" 
+                        />
+                    </div>
+                    
+                    <div class="pt-6 pb-4 text-center px-1">
+                        <span class={`inline-block px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-white mb-3 ${colorBadge}`}>
+                            {categoriaNombre}
+                        </span>
+                        <h1 class="text-xl font-black tracking-tight leading-tight text-slate-800">{farmaco.nombre}</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-9 space-y-6">
+                <div class="bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-slate-100">
+                    <h2 class={`text-xl font-black uppercase italic mb-6 border-b-2 pb-4 border-slate-100 ${colorText}`}>Ficha Farmacológica</h2>
+                    
+                    <div class="space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                                <h3 class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-2">Presentación</h3>
+                                <p class="text-sm font-bold text-slate-700 leading-snug">{farmaco.presentacion}</p>
+                            </div>
+                            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                                <h3 class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-2">Vía de Adm. y Dosis Habitual</h3>
+                                <p class="text-sm font-bold text-slate-700">{farmaco.via}</p>
+                                <p class="text-xs text-slate-500 mt-1">{farmaco.dosis}</p>
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-x-8 gap-y-8">
+                             <div>
+                                <h3 class="text-xs font-black uppercase text-slate-400 tracking-widest mb-2">Indicaciones Terapéuticas</h3>
+                                <p class="text-slate-600 text-sm font-medium leading-relaxed">{farmaco.indicacion}</p>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-xs font-black uppercase text-slate-400 tracking-widest mb-2">Mecanismo de Acción (Farmacodinamia)</h3>
+                                <p class="text-slate-600 text-sm font-medium leading-relaxed">{farmaco.farmacodinamia}</p>
+                            </div>
+
+                            <div>
+                                <h3 class="text-xs font-black uppercase text-slate-400 tracking-widest mb-2">Farmacocinética</h3>
+                                <p class="text-slate-600 text-sm font-medium leading-relaxed">{farmaco.farmacocinetica}</p>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-xs font-black uppercase text-red-400 tracking-widest mb-2">Contraindicaciones</h3>
+                                <p class="text-sm leading-relaxed text-red-600 font-bold">{farmaco.contraindicaciones}</p>
+                            </div>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-6 pt-6 border-t border-slate-100">
+                            <div class="bg-orange-50/50 p-6 rounded-3xl border border-orange-100">
+                                <h3 class="text-xs font-black uppercase text-orange-600 tracking-widest mb-3">Reacciones Adversas</h3>
+                                <ul class="list-disc list-inside text-sm text-slate-700 font-medium space-y-1">
+                                    {farmaco.adversos.map((adv: string) => <li class="capitalize">{adv}</li>)}
+                                </ul>
+                            </div>
+                            <div class="bg-emerald-50/50 p-6 rounded-3xl border border-emerald-100">
+                                <h3 class="text-xs font-black uppercase text-emerald-600 tracking-widest mb-3">Cuidados de Enfermería</h3>
+                                <ul class="list-disc list-inside text-sm text-slate-700 font-medium space-y-1">
+                                    {farmaco.cuidados.map((cuidado: string) => <li class="leading-snug">{cuidado}</li>)}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {relacionados.length > 0 && (
+            <div class="mt-16">
+                <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest mb-6 border-l-4 pl-3 border-emerald-500">
+                    Familia: {categoriaNombre}
+                </h3>
+                
+                <div class="flex overflow-x-auto gap-4 pb-8 snap-x snap-mandatory no-scrollbar bg-white p-5 rounded-3xl shadow-sm border border-slate-100 items-start">
+                    {relacionados.map((rel: any) => (
+                        <a href={`/farmaco/${rel.id}`} class="snap-start shrink-0 w-40 group">
+                            <div class="bg-white p-2 rounded-2xl shadow-sm border border-slate-200 hover:shadow-lg transition-all hover:-translate-y-1 flex flex-col items-center">
+                                
+                                <div class="w-35 h-35 rounded-xl bg-slate-50 overflow-hidden relative p-2 flex items-center justify-center border border-slate-100 shadow-inner">
+                                    <img 
+                                        src={`/${rel.id}.jpeg`} 
+                                        alt={rel.nombre} 
+                                        class="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500" 
+                                        onerror="this.src='https://cdn-icons-png.flaticon.com/512/822/822143.png'" 
+                                    />
+                                </div>
+                                <h4 class="text-[10px] font-bold text-slate-800 text-center mt-3 mb-1 truncate w-full px-1">{rel.nombre}</h4>
+                            </div>
+                        </a>
+                    ))}
+                </div>
+            </div>
+        )}
+
+    <footer class="py-12 text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest">
+        Eva Susana Hernández Rivera · 2026
+    </footer>
+
+    </main>
+</body>
+</html>

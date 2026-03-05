@@ -1,0 +1,70 @@
+---
+import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+
+const categorias = [
+  { id: 'analgesicos', titulo: '1. Analgésicos y AINES', color: 'bg-red-500', icon: '💊' },
+  { id: 'antibioticos', titulo: '2. Antibióticos', color: 'bg-blue-600', icon: '🦠' },
+  { id: 'gastrointestinales', titulo: '3. Gastrointestinales', color: 'bg-emerald-600', icon: '🩺' },
+  { id: 'respiratorio', titulo: '4. Respiratorio', color: 'bg-sky-500', icon: '🫁' },
+  { id: 'obstetricia', titulo: '5. Obstetricia', color: 'bg-rose-500', icon: '🤰' },
+  { id: 'electrolitos', titulo: '6. Electrolitos', color: 'bg-cyan-600', icon: '💧' },
+  { id: 'corticoides', titulo: '7. Corticoides', color: 'bg-orange-500', icon: '⚡' },
+  { id: 'antirretroviral', titulo: '8. Antirretroviral', color: 'bg-indigo-600', icon: '🛡️' },
+  { id: 'antifungico', titulo: '9. Antifúngico', color: 'bg-amber-600', icon: '🍄' },
+  { id: 'vitaminas', titulo: '10. Vitaminas y Vacunas', color: 'bg-yellow-500', icon: '💉' }
+];
+---
+
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Familias Farmacológicas</title>
+    <ViewTransitions />
+</head>
+<body class="bg-slate-50 font-sans min-h-screen">
+
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        
+        <header class="flex items-center mb-10 bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+            <a href="/" class="p-3 bg-slate-100 rounded-2xl hover:bg-emerald-100 text-emerald-600 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+                </svg>
+            </a>
+            <h1 class="flex-1 text-center text-2xl font-black text-slate-800 uppercase tracking-tight">
+                Familias Farmacológicas
+            </h1>
+        </header>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {categorias.map((cat) => (
+                <a href={`/categoria/${cat.id}`} 
+                   class="group relative overflow-hidden bg-white p-1 rounded-[2.5rem] shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                    
+                    <div class={`flex flex-col items-center justify-center p-8 rounded-[2.2rem] h-full ${cat.color} text-white`}>
+                        <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-all"></div>
+                        
+                        <span class="text-6xl mb-4 drop-shadow-lg group-hover:scale-110 transition-transform duration-500">
+                            {cat.icon}
+                        </span>
+                        
+                        <h2 class="text-xl font-extrabold text-center leading-tight">
+                            {cat.titulo}
+                        </h2>
+                        
+                        <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity flex items-center text-sm font-bold bg-white/20 px-4 py-2 rounded-full backdrop-blur-sm">
+                            Ver fármacos 
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+            ))}
+        </div>
+        
+    </div>
+</body>
+</html>

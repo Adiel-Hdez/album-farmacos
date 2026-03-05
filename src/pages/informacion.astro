@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+---
+
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Introducción y Objetivos</title>
+    <ViewTransitions />
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+    <main class="max-w-2xl mx-auto px-6 py-12 space-y-10">
+        
+        <header class="flex items-center justify-between bg-white p-4 rounded-3xl shadow-sm">
+            <a href="/" class="text-emerald-600 font-bold text-xs uppercase tracking-widest flex items-center">
+                <span class="mr-2">←</span> Portada
+            </a>
+            <span class="text-xs font-black text-slate-300 uppercase">Marco Teórico</span>
+        </header>
+
+        <section class="bg-white p-10 rounded-3xl shadow-xl shadow-slate-200/50 space-y-6">
+            <h2 class="text-3xl font-black text-slate-900 uppercase italic tracking-tighter">Introducción</h2>
+            <div class="h-1 w-20 bg-emerald-500 rounded-full mb-8"></div>
+            
+            <p class="text-slate-600 leading-relaxed text-justify text-sm">
+                La farmacología en el área de ginecología y obstetricia constituye un componente esencial en la atención integral de la mujer durante las diferentes etapas de su vida reproductiva. El manejo adecuado de medicamentos en este campo requiere conocimientos precisos sobre sus mecanismos de acción, indicaciones, contraindicaciones y efectos adversos, debido a las particularidades fisiológicas del embarazo, el puerperio y las patologías ginecológicas.
+            </p>
+            <p class="text-slate-600 leading-relaxed text-justify text-sm">
+                En obstetricia, el uso de fármacos está orientado a la prevención y manejo de complicaciones maternas y fetales, como infecciones, trastornos hipertensivos del embarazo, hemorragias, amenaza de parto prematuro y control del dolor. En ginecología, los medicamentos cumplen un papel fundamental en el tratamiento de infecciones del tracto reproductivo, trastornos hormonales, enfermedades inflamatorias pélvicas, alteraciones menstruales y planificación familiar.
+            </p>
+            <p class="text-slate-600 leading-relaxed text-justify text-sm">
+                El presente álbum farmacológico recopila de manera sistemática los medicamentos más utilizados en el área gineco-obstétrica, describiendo su clasificación, mecanismo de acción, indicaciones, dosis, presentaciones y efectos adversos. Este trabajo permite fortalecer el conocimiento teórico necesario para comprender el uso racional de los fármacos en la salud materno-infantil, promoviendo una atención segura y fundamentada en principios científicos.
+            </p>
+        </section>
+
+        <section class="bg-emerald-600 p-10 rounded-3xl text-white shadow-2xl shadow-emerald-200">
+            <h2 class="text-2xl font-black uppercase mb-4">Objetivo General</h2>
+            <p class="text-emerald-50 font-medium text-lg italic leading-tight">
+                "Fortalecer conocimientos sobre la farmacología utilizada en mujeres y niños de bajo y mediano riesgo."
+            </p>
+        </section>
+
+        <a href="/album" class="block text-center bg-slate-900 text-white font-black py-5 rounded-2xl uppercase tracking-widest hover:bg-emerald-500 transition-all shadow-xl">
+            Abrir Álbum de Fármacos
+        </a>
+        
+    </main>
+</body>
+</html>

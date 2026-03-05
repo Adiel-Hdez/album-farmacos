@@ -1,17 +1,59 @@
 ---
-
+import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Álbum de Farmacología - UNAB</title>
+    <ViewTransitions />
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js" is:inline></script>
+</head>
+<body class="bg-emerald-50 font-sans min-h-screen flex flex-col items-center justify-center p-4">
+
+    <main class="bg-white p-8 md:p-12 rounded-3xl shadow-xl max-w-xl w-full text-center">
+        
+        <div class="flex justify-center mb-6">
+            <img src="/public/andres.jpeg" alt="Logo UNAB" class="w-32 h-auto object-contain" />
+        </div>
+        
+        <div class="mb-8 space-y-1">
+            <h2 class="font-extrabold text-xl text-blue-900">UNIVERSIDAD DR. ANDRES BELLO.</h2>
+            <h3 class="font-bold text-lg text-blue-600">FACULTAD DE ENFERMERIA.</h3>
+            <h3 class="font-bold text-lg text-blue-600">TECNICO EN ENFERMERIA.</h3>
+        </div>
+
+        <h1 class="text-3xl md:text-4xl font-black text-gray-900 mb-8 uppercase tracking-tight">
+            Álbum de Farmacología
+        </h1>
+
+        <div class="bg-slate-50 border-l-4 border-blue-500 p-5 rounded-r-xl text-left mb-10 space-y-2 text-sm md:text-base">
+            <p><span class="font-bold text-slate-800">ASIGNATURA:</span> <span class="text-slate-600">ATENCION A LA MUJER Y A LA NIÑEZ II.</span></p>
+            <p><span class="font-bold text-slate-800">DOCENTE:</span> <span class="text-slate-600">SAMUEL ALFREDO SANCHEZ RIVAS.</span></p>
+            <p><span class="font-bold text-slate-800">ALUMNA:</span> <span class="text-slate-600">EVA SUSANA HERNÁNDEZ RIVERA</span></p>
+            <p><span class="font-bold text-slate-800">FECHA:</span> <span class="text-slate-600">SAN SALVADOR FEBRERO DE 2026.</span></p>
+        </div>
+
+        <div class="flex flex-col items-center gap-6">
+            
+            <lottie-player 
+                src="https://lottie.host/c0bbb7b9-4200-4c20-8cbb-228afbf18910/cphilkhabG.json" 
+                background="transparent" 
+                speed="1" 
+                style="width: 150px; height: 150px;" 
+                loop 
+                autoplay>
+            </lottie-player>
+            
+            <a href="/informacion" 
+               class="inline-block bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg py-4 px-10 rounded-full transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-emerald-500/50">
+               Continuar
+            </a>
+        </div>
+
+    </main>
+
+</body>
 </html>
